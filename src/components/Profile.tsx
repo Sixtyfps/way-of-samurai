@@ -1,10 +1,11 @@
 import React from "react";
+import s from './Profile.module.css'
 
 type ProfileType = {}
 
 export const Profile: React.FC<ProfileType> = (props) => {
     return (
-        <div className='content'>
+        <div className={s.content}>
             <img src="#" alt="image"/>
             <div>
                 photo + description
@@ -14,11 +15,9 @@ export const Profile: React.FC<ProfileType> = (props) => {
                 <div>
                     New post
                 </div>
-                <div>
-                    <div>post 1</div>
-                    <div>post 2</div>
-                    <div>post 3</div>
-                    <div>post 4</div>
+                <div className={s.posts}>
+                    <div className={s.item}>post 1</div>
+                    <div className={s.item}>post 2</div>
                 </div>
             </div>
         </div>
