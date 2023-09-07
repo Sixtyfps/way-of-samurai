@@ -6,7 +6,7 @@ type ProfileType = {}
 
 export const Profile: React.FC<ProfileType> = (props) => {
     return (
-        <div className={s.content}>
+        <div>
             <img src="#" alt="image"/>
             <div>
                 photo + description

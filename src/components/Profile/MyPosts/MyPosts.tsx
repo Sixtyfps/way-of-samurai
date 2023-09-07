@@ -15,8 +15,8 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
                     <button>Remove</button>
                 </div>
                 <div className={s.posts}>
-                    <Post/>
-                    <Post/>
+                    <Post message='Hi, how are you?' likesCount={23}/>
+                    <Post message='Hello!' likesCount={4}/>
                 </div>
             </div>
         </div>
