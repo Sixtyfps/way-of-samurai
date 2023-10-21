@@ -1,5 +1,6 @@
 import React from "react";
 import s from'./Dialogs.module.css'
+import {NavLink} from "react-router-dom";
 
 type DialogsType = {
 
@@ -9,19 +10,19 @@ export const Dialogs: React.FC<DialogsType> = (props) => {
         <div className={s.dialogs}>
             <div className={s.dialogsItems}>
                 <div className={`${s.dialogs}` + ' ' + `${s.active}`}>
-                    Dimich
+                   <NavLink to="/dialogs/1">Dimich</NavLink>
                 </div>
                 <div className={s.dialog}>
-                    Dim
+                    <NavLink to="/dialogs/2">Petr</NavLink>
                 </div>
                 <div className={s.dialog}>
-                    Dim
+                    <NavLink to="/dialogs/3">Kot</NavLink>
                 </div>
                 <div className={s.dialog}>
-                    Dim
+                    <NavLink to="/dialogs/4">Pes</NavLink>
                 </div>
                 <div className={s.dialog}>
-                    Dim
+                    <NavLink to="/dialogs/5">Dim</NavLink>
                 </div>
             </div>
             <div className={s.messages}>
