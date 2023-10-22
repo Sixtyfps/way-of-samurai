@@ -5,6 +5,12 @@ import {Post} from "./Post/Post";
 type MyPostsType = {}
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
+
+    let postsData = [
+        {id: 1, message: 'Hi, how are you?', likesCount: 23},
+        {id: 2, message: 'Hello! Its my first post', likesCount: 12},
+    ]
+
     return (
         <div>
             <div className={s.postsBlock}>
@@ -18,8 +24,8 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
                     </div>
                 </div>
                 <div className={s.posts}>
-                    <Post message='Hi, how are you?' likesCount={23}/>
-                    <Post message='Hello!' likesCount={4}/>
+                    <Post message={postsData[0].message} likesCount={postsData[0].likesCount}/>
+                    <Post message={postsData[1].message} likesCount={postsData[1].likesCount}/>
                 </div>
             </div>
         </div>
