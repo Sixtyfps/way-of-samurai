@@ -6,10 +6,12 @@ type MyPostsType = {}
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
 
-    let postsData = [
+    let posts = [
         {id: 1, message: 'Hi, how are you?', likesCount: 23},
         {id: 2, message: 'Hello! Its my first post', likesCount: 12},
     ]
+
+    let postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
 
     return (
         <div>
@@ -24,8 +26,7 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
                     </div>
                 </div>
                 <div className={s.posts}>
-                    <Post message={postsData[0].message} likesCount={postsData[0].likesCount}/>
-                    <Post message={postsData[1].message} likesCount={postsData[1].likesCount}/>
+                    {postsElements}
                 </div>
             </div>
         </div>
