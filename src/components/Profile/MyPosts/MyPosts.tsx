@@ -1,17 +1,20 @@
 import React from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
+import {StateType} from "../../../redux/state";
 
-type MyPostsType = {}
+type MyPostsType = {
+    state: StateType
+}
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
 
-    let posts = [
-        {id: 1, message: 'Hi, how are you?', likesCount: 23},
-        {id: 2, message: 'Hello! Its my first post', likesCount: 12},
-    ]
+    // let posts = [
+    //     {id: 1, message: 'Hi, how are you?', likesCount: 23},
+    //     {id: 2, message: 'Hello! Its my first post', likesCount: 12},
+    // ]
 
-    let postsElements = posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
+    let postsElements = props.state.profilePage.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
 
     return (
         <div>
