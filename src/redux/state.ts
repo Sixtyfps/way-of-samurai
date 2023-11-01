@@ -1,34 +1,37 @@
 export type StateType = {
     profilePage: ProfilePageType,
-    dialogsPage: DialogsPageType
+    dialogsPage: DialogsPageType,
+    sidebar: SidebarType
 }
 
-type ProfilePageType = {
+export type DialogsPageType = {
+    dialogs: Array<DialogType>,
+    messages: Array<MessageType>
+}
+
+export type ProfilePageType = {
     posts: Array<PostType>
 }
 
-type PostType = {
+export type PostType = {
     id: number,
     message: string,
     likesCount: number
 }
 
-type DialogsPageType = {
-    dialogs: Array<DialogType>,
-    messages: Array<MessageType>
-}
-
-type DialogType = {
+export type DialogType = {
     id: number,
     name: string
 }
 
-type MessageType = {
+export type MessageType = {
     id: number,
     message: string
 }
 
-export let state = {
+export type SidebarType = {}
+
+export let state: StateType = {
     profilePage: {
         posts: [
             {id: 1, message: 'Hi, how are you?', likesCount: 23},
