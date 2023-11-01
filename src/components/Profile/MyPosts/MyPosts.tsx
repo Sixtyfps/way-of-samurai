@@ -9,12 +9,7 @@ type MyPostsType = {
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
 
-    // let posts = [
-    //     {id: 1, message: 'Hi, how are you?', likesCount: 23},
-    //     {id: 2, message: 'Hello! Its my first post', likesCount: 12},
-    // ]
-
-    let postsElements = props.state.posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>)
+    let postsElements = props.state.posts.map((p, key) => <Post message={p.message} likesCount={p.likesCount} key={key}/>)
 
     return (
         <div>
