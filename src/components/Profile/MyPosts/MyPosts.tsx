@@ -5,6 +5,7 @@ import {ProfilePageType} from "../../../redux/state";
 
 type MyPostsType = {
     state: ProfilePageType
+    addPost:(postMessage: string)=>void
 }
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
@@ -15,7 +16,10 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
     let addPost = () => {
-        alert(newPostElement.current?.value)
+        if (newPostElement.current) {
+            props.addPost(newPostElement.current.value)
+            newPostElement.current.value =''
+        }
     }
 
     return (
