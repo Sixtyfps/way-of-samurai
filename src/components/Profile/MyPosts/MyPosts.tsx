@@ -5,7 +5,9 @@ import {ProfilePageType} from "../../../redux/state";
 
 type MyPostsType = {
     state: ProfilePageType
-    addPost:(postMessage: string)=>void
+    addPost: (postMessage: string) => void
+    newPostText: string
+    updateNewPostText:(postText: string)=>void
 }
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
@@ -15,10 +17,15 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
 
     let newPostElement = React.createRef<HTMLTextAreaElement>()
 
-    let addPost = () => {
+    const addPost = () => {
         if (newPostElement.current) {
             props.addPost(newPostElement.current.value)
-            newPostElement.current.value =''
+        }
+    }
+
+    const onChangeHandler = () => {
+        if (newPostElement.current) {
+            props.updateNewPostText(newPostElement.current.value)
         }
     }
 
@@ -28,7 +35,7 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
                 <h3>My posts</h3>
                 <div>
                     <div>
-                        <textarea ref={newPostElement}></textarea>
+                        <textarea onChange={onChangeHandler} ref={newPostElement} value={props.newPostText}/>
                     </div>
                     <div>
                         <button onClick={addPost}>Add post</button>
