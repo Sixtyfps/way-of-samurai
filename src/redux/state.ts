@@ -1,4 +1,4 @@
-import {rerenderEntireTree} from "../render";
+let rerenderEntireTree = (state: StateType) => {}
 
 export type StateType = {
     profilePage: ProfilePageType,
@@ -61,7 +61,7 @@ export let state: StateType = {
     sidebar: {}
 }
 
-export const addPost = (postMessage: string) => {
+export const addPost = () => {
     const newPost: PostType = {
         id: 5,
         message: state.profilePage.newPostText,
@@ -75,4 +75,8 @@ export const addPost = (postMessage: string) => {
 export const updateNewPostText = (postText: string) => {
     state.profilePage.newPostText = postText
     rerenderEntireTree(state)
+}
+
+export const subscribe = (rerenderEntireTreeCallback:(state: StateType) => void) => {
+    rerenderEntireTree = rerenderEntireTreeCallback
 }
