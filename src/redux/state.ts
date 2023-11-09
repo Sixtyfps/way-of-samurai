@@ -1,4 +1,3 @@
-let rerenderEntireTree = (state: StateType) => {}
 
 export type StateType = {
     profilePage: ProfilePageType,
@@ -34,49 +33,67 @@ export type MessageType = {
 
 export type SidebarType = {}
 
-export let state: StateType = {
-    profilePage: {
-        posts: [
-            {id: 1, message: 'Hi, how are you?', likesCount: 23},
-            {id: 2, message: 'Hello! Its my first post', likesCount: 12},
-        ],
-        newPostText: ''
-    },
-    dialogsPage: {
-        dialogs: [
-            {id: 1, name: 'Dimich'},
-            {id: 2, name: 'Andrey'},
-            {id: 3, name: 'John'},
-            {id: 4, name: 'Sam'},
-            {id: 5, name: 'Artem'},
-        ],
-        messages: [
-            {id: 1, message: 'Hi'},
-            {id: 2, message: 'Wassup!'},
-            {id: 3, message: 'How are you'},
-            {id: 4, message: 'Bye'},
-            {id: 5, message: 'Night!'},
-        ]
-    },
-    sidebar: {}
+//---------------------------------------------------S-T-O-R-E----------------------------------------------------------
+
+export type StoreType = {
+    _state: StateType
+    addPost: () => void
+    updateNewPostText: (postText: string) => void
+    subscribe: (rerenderEntireTreeCallback:(state: StateType) => void) => void
+    _rerenderEntireTree: (state: StateType) => void
+    getState: () => StateType
+    setState: (state: StateType) => void
 }
 
-export const addPost = () => {
-    const newPost: PostType = {
-        id: 5,
-        message: state.profilePage.newPostText,
-        likesCount: 0
+export const store:StoreType = {
+    _state: {
+        profilePage: {
+            posts: [
+                {id: 1, message: 'Hi, how are you?', likesCount: 23},
+                {id: 2, message: 'Hello! Its my first post', likesCount: 12},
+            ],
+            newPostText: ''
+        },
+        dialogsPage: {
+            dialogs: [
+                {id: 1, name: 'Dimich'},
+                {id: 2, name: 'Andrey'},
+                {id: 3, name: 'John'},
+                {id: 4, name: 'Sam'},
+                {id: 5, name: 'Artem'},
+            ],
+            messages: [
+                {id: 1, message: 'Hi'},
+                {id: 2, message: 'Wassup!'},
+                {id: 3, message: 'How are you'},
+                {id: 4, message: 'Bye'},
+                {id: 5, message: 'Night!'},
+            ]
+        },
+        sidebar: {}
+    },
+    addPost() {
+        const newPost: PostType = {
+            id: 5,
+            message: this._state.profilePage.newPostText,
+            likesCount: 0
+        }
+        this._state.profilePage.posts.push(newPost)
+        this._state.profilePage.newPostText = ''
+        this._rerenderEntireTree(this._state)
+    },
+    updateNewPostText(postText: string) {
+        this._state.profilePage.newPostText = postText
+        this._rerenderEntireTree(this._state)
+    },
+    _rerenderEntireTree() {},
+    subscribe(rerenderEntireTreeCallback) {
+        this._rerenderEntireTree = rerenderEntireTreeCallback
+    },
+    getState() {
+        return this._state
+    },
+    setState(state) {
+        this._rerenderEntireTree(state)
     }
-    state.profilePage.posts.push(newPost)
-    state.profilePage.newPostText = ''
-    rerenderEntireTree(state)
-}
-
-export const updateNewPostText = (postText: string) => {
-    state.profilePage.newPostText = postText
-    rerenderEntireTree(state)
-}
-
-export const subscribe = (rerenderEntireTreeCallback:(state: StateType) => void) => {
-    rerenderEntireTree = rerenderEntireTreeCallback
 }

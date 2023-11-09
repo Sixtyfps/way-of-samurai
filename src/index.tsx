@@ -1,22 +1,25 @@
 import React from 'react';
-import {state, subscribe} from "./redux/state";
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {addPost, StateType, updateNewPostText} from "./redux/state";
+import {StateType} from "./redux/state";
 import {BrowserRouter} from 'react-router-dom';
+import {store} from './redux/state'
 
 const rerenderEntireTree = (state: StateType) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} addPost={addPost} updateNewPostText={updateNewPostText}/>,
+            <App store={store}/>,
         </BrowserRouter>, document.getElementById('root'))
 }
 
 // initial application render with initial state
-rerenderEntireTree(state)
+rerenderEntireTree(store._state)
 
 // sending rerenderEntireTree function to state (where subscribe located)
 // so we can use rerenderEntireTree in state.ts (after changes in state)
-// as callback without importing it
-subscribe(rerenderEntireTree)
+// as callback without importing it.
+
+// index.tsx starts before state.ts and function subscribe rewrite
+// rerenderEntireTree in state.ts before we reach state.ts
+store.subscribe(rerenderEntireTree)
