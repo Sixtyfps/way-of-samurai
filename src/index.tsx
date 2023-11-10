@@ -14,7 +14,7 @@ const rerenderEntireTree = (state: StateType) => {
 }
 
 // initial application render with initial state
-rerenderEntireTree(store._state)
+rerenderEntireTree(store.getState())
 
 // sending rerenderEntireTree function to state (where subscribe located)
 // so we can use rerenderEntireTree in state.ts (after changes in state)

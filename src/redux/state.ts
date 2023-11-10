@@ -1,4 +1,4 @@
-
+//--------------------T-Y-P-E-S----------------------------------
 export type StateType = {
     profilePage: ProfilePageType,
     dialogsPage: DialogsPageType,
@@ -33,7 +33,7 @@ export type MessageType = {
 
 export type SidebarType = {}
 
-//---------------------------------------------------S-T-O-R-E----------------------------------------------------------
+//--------------------S-T-O-R-E----------------------------------------------------------
 
 export type StoreType = {
     _state: StateType
@@ -42,8 +42,20 @@ export type StoreType = {
     subscribe: (rerenderEntireTreeCallback:(state: StateType) => void) => void
     _rerenderEntireTree: (state: StateType) => void
     getState: () => StateType
-    setState: (state: StateType) => void
+    // setState: (state: StateType) => void
+    dispatch: (action: ActionsTypes) => void
 }
+
+type AddPostActionType = {
+    type: 'ADD-POST'
+}
+
+type UpdateNewPostTextActionType = {
+    type: 'UPDATE-NEW-POST-TEXT'
+    postText: string
+}
+
+export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
 
 export const store:StoreType = {
     _state: {
@@ -72,6 +84,8 @@ export const store:StoreType = {
         },
         sidebar: {}
     },
+    _rerenderEntireTree() {},
+
     addPost() {
         const newPost: PostType = {
             id: 5,
@@ -82,18 +96,38 @@ export const store:StoreType = {
         this._state.profilePage.newPostText = ''
         this._rerenderEntireTree(this._state)
     },
-    updateNewPostText(postText: string) {
-        this._state.profilePage.newPostText = postText
-        this._rerenderEntireTree(this._state)
-    },
-    _rerenderEntireTree() {},
+
     subscribe(rerenderEntireTreeCallback) {
         this._rerenderEntireTree = rerenderEntireTreeCallback
     },
     getState() {
         return this._state
     },
-    setState(state) {
-        this._rerenderEntireTree(state)
+
+    updateNewPostText(postText: string) {
+        this._state.profilePage.newPostText = postText
+        this._rerenderEntireTree(this._state)
+    },
+
+    // setState(state) {
+    //     this._rerenderEntireTree(state)
+    // }
+
+    dispatch(action) {
+        if (action.type === 'ADD-POST') {
+            const newPost: PostType = {
+                id: 5,
+                message: this._state.profilePage.newPostText,
+                likesCount: 0
+            }
+            this._state.profilePage.posts.push(newPost)
+            this._state.profilePage.newPostText = ''
+            this._rerenderEntireTree(this._state)
+        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+            this._state.profilePage.newPostText = action.postText
+            this._rerenderEntireTree(this._state)
+        }
     }
+
+
 }

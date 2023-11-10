@@ -1,13 +1,12 @@
 import React, {ChangeEvent} from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ProfilePageType} from "../../../redux/state";
+import {ActionsTypes, ProfilePageType} from "../../../redux/state";
 
 type MyPostsType = {
     state: ProfilePageType
-    addPost: (postMessage: string) => void
     newPostText: string
-    updateNewPostText:(postText: string)=>void
+    dispatch: (action: ActionsTypes) => void
 }
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
@@ -16,11 +15,12 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
                                                                 key={key}/>)
 
     const addPost = () => {
-            props.addPost(props.newPostText)
+        props.dispatch({type: "ADD-POST"})
     }
 
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-            props.updateNewPostText(e.currentTarget.value)
+        // props.updateNewPostText(e.currentTarget.value)
+        props.dispatch({type: "UPDATE-NEW-POST-TEXT", postText: e.currentTarget.value})
     }
 
     return (
