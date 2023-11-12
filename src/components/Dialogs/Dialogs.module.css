@@ -16,6 +16,15 @@
     padding: 10px;
 }
 
-.messages .message {
+.messageInput {
+    width: 200px;
+    height: 30px;
+    resize: none;
+}
 
+.sendButton {
+    margin-left: 10px;
+    width: 80px;
+    height: 35px;
+    font-size: 15px;
 }

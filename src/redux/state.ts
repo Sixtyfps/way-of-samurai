@@ -7,7 +7,8 @@ export type StateType = {
 
 export type DialogsPageType = {
     dialogs: Array<DialogType>,
-    messages: Array<MessageType>
+    messages: Array<MessageType>,
+    newMessage: string
 }
 
 export type ProfilePageType = {
@@ -37,27 +38,50 @@ export type SidebarType = {}
 
 export type StoreType = {
     _state: StateType
-    addPost: () => void
-    updateNewPostText: (postText: string) => void
-    subscribe: (rerenderEntireTreeCallback:(state: StateType) => void) => void
+    subscribe: (rerenderEntireTreeCallback: (state: StateType) => void) => void
     _rerenderEntireTree: (state: StateType) => void
     getState: () => StateType
-    // setState: (state: StateType) => void
     dispatch: (action: ActionsTypes) => void
 }
 
-type AddPostActionType = {
-    type: 'ADD-POST'
+
+export type ActionsTypes = ReturnType<typeof addPostAC>
+    | ReturnType<typeof updateNewPostTextAC>
+    | ReturnType<typeof addMessageAC>
+    | ReturnType<typeof updateMessageAC>
+
+//---------------------Posts Action Creators--------------------------
+export const addPostAC = () => {
+    return {
+        type: 'ADD-POST'
+    } as const
 }
 
-type UpdateNewPostTextActionType = {
-    type: 'UPDATE-NEW-POST-TEXT'
-    postText: string
+export const updateNewPostTextAC = (postText: string) => {
+    return {
+        type: 'UPDATE-NEW-POST-TEXT',
+        postText: postText
+    } as const
+}
+//--------------------Dialogs Action Creators--------------------------
+export const addMessageAC = () => {
+    return {
+        type: 'ADD-MESSAGE'
+    } as const
 }
 
-export type ActionsTypes = AddPostActionType | UpdateNewPostTextActionType
+export const updateMessageAC = (message: string) => {
+    return {
+        type: 'UPDATE-MESSAGE',
+        message: message
+    } as const
+}
 
-export const store:StoreType = {
+
+//---------------------------STORE----------------------
+export const store: StoreType = {
+
+    //------------------------------State------------------------
     _state: {
         profilePage: {
             posts: [
@@ -80,21 +104,12 @@ export const store:StoreType = {
                 {id: 3, message: 'How are you'},
                 {id: 4, message: 'Bye'},
                 {id: 5, message: 'Night!'},
-            ]
+            ],
+            newMessage: ''
         },
         sidebar: {}
     },
-    _rerenderEntireTree() {},
-
-    addPost() {
-        const newPost: PostType = {
-            id: 5,
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        }
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ''
-        this._rerenderEntireTree(this._state)
+    _rerenderEntireTree() {
     },
 
     subscribe(rerenderEntireTreeCallback) {
@@ -104,16 +119,10 @@ export const store:StoreType = {
         return this._state
     },
 
-    updateNewPostText(postText: string) {
-        this._state.profilePage.newPostText = postText
-        this._rerenderEntireTree(this._state)
-    },
-
-    // setState(state) {
-    //     this._rerenderEntireTree(state)
-    // }
+//--------------------Functions And Manipulations With State----------
 
     dispatch(action) {
+//--------------------Manipulations with posts----------------------
         if (action.type === 'ADD-POST') {
             const newPost: PostType = {
                 id: 5,
@@ -123,8 +132,24 @@ export const store:StoreType = {
             this._state.profilePage.posts.push(newPost)
             this._state.profilePage.newPostText = ''
             this._rerenderEntireTree(this._state)
-        } else if (action.type === 'UPDATE-NEW-POST-TEXT') {
+        }
+        if (action.type === 'UPDATE-NEW-POST-TEXT') {
             this._state.profilePage.newPostText = action.postText
+            this._rerenderEntireTree(this._state)
+        }
+//--------------------Manipulations with messages----------------------
+        if (action.type === 'UPDATE-MESSAGE') {
+            this._state.dialogsPage.newMessage = action.message
+            this._rerenderEntireTree(this._state)
+        }
+
+        if (action.type === 'ADD-MESSAGE') {
+            const newMessage: MessageType = {
+                id: 3,
+                message: this._state.dialogsPage.newMessage
+            }
+            this._state.dialogsPage.messages.push(newMessage)
+            this._state.dialogsPage.newMessage = ''
             this._rerenderEntireTree(this._state)
         }
     }
