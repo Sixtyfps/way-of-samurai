@@ -1,4 +1,8 @@
 //--------------------T-Y-P-E-S----------------------------------
+import {addPostAC, profileReducer, updateNewPostTextAC} from "./profile-reducer";
+import {addMessageAC, dialogsReducer, updateMessageAC} from "./dialogs-reducer";
+import {sidebarReducer} from "./sidebar-reducer";
+
 export type StateType = {
     profilePage: ProfilePageType,
     dialogsPage: DialogsPageType,
@@ -34,7 +38,7 @@ export type MessageType = {
 
 export type SidebarType = {}
 
-//--------------------S-T-O-R-E----------------------------------------------------------
+//--------------------S-T-O-R-E---------------------------------
 
 export type StoreType = {
     _state: StateType
@@ -49,33 +53,6 @@ export type ActionsTypes = ReturnType<typeof addPostAC>
     | ReturnType<typeof updateNewPostTextAC>
     | ReturnType<typeof addMessageAC>
     | ReturnType<typeof updateMessageAC>
-
-//---------------------Posts Action Creators--------------------------
-export const addPostAC = () => {
-    return {
-        type: 'ADD-POST'
-    } as const
-}
-
-export const updateNewPostTextAC = (postText: string) => {
-    return {
-        type: 'UPDATE-NEW-POST-TEXT',
-        postText: postText
-    } as const
-}
-//--------------------Dialogs Action Creators--------------------------
-export const addMessageAC = () => {
-    return {
-        type: 'ADD-MESSAGE'
-    } as const
-}
-
-export const updateMessageAC = (message: string) => {
-    return {
-        type: 'UPDATE-MESSAGE',
-        message: message
-    } as const
-}
 
 
 //---------------------------STORE----------------------
@@ -119,40 +96,14 @@ export const store: StoreType = {
         return this._state
     },
 
-//--------------------Functions And Manipulations With State----------
+    //--------------------Functions And Manipulations With State----------
+    dispatch(action: ActionsTypes) {
 
-    dispatch(action) {
-//--------------------Manipulations with posts----------------------
-        if (action.type === 'ADD-POST') {
-            const newPost: PostType = {
-                id: 5,
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            }
-            this._state.profilePage.posts.push(newPost)
-            this._state.profilePage.newPostText = ''
-            this._rerenderEntireTree(this._state)
-        }
-        if (action.type === 'UPDATE-NEW-POST-TEXT') {
-            this._state.profilePage.newPostText = action.postText
-            this._rerenderEntireTree(this._state)
-        }
-//--------------------Manipulations with messages----------------------
-        if (action.type === 'UPDATE-MESSAGE') {
-            this._state.dialogsPage.newMessage = action.message
-            this._rerenderEntireTree(this._state)
-        }
+        this._state.profilePage = profileReducer( this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer( this._state.dialogsPage, action)
+        this._state.sidebar = sidebarReducer( this._state.sidebar, action)
 
-        if (action.type === 'ADD-MESSAGE') {
-            const newMessage: MessageType = {
-                id: 3,
-                message: this._state.dialogsPage.newMessage
-            }
-            this._state.dialogsPage.messages.push(newMessage)
-            this._state.dialogsPage.newMessage = ''
-            this._rerenderEntireTree(this._state)
-        }
+        this._rerenderEntireTree(this._state)
     }
-
 
 }

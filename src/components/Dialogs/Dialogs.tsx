@@ -2,7 +2,8 @@ import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ActionsTypes, addMessageAC, DialogsPageType, updateMessageAC} from "../../redux/state";
+import {ActionsTypes, DialogsPageType} from "../../redux/state";
+import {addMessageAC, updateMessageAC} from "../../redux/dialogs-reducer";
 
 type DialogsType = {
     state: DialogsPageType
@@ -32,9 +33,12 @@ export const Dialogs: React.FC<DialogsType> = (props) => {
                 {messagesElements}
             </div>
             <textarea className={s.messageInput}
-                      onChange={onChangeHandler} value={props.state.newMessage}></textarea>
+                      onChange={onChangeHandler}
+                      value={props.state.newMessage}
+                      placeholder={'Enter the message'}></textarea>
             <button className={s.sendButton}
-                    onClick={addMessage}>Send</button>
+                    onClick={addMessage}>Send
+            </button>
         </div>
     )
 }
