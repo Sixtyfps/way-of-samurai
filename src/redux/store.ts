@@ -57,7 +57,6 @@ export type ActionsTypes = ReturnType<typeof addPostAC>
 
 //---------------------------STORE----------------------
 export const store: StoreType = {
-
     //------------------------------State------------------------
     _state: {
         profilePage: {

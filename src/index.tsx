@@ -2,14 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import {StateType} from "./redux/state";
+import {StateType} from "./redux/store";
 import {BrowserRouter} from 'react-router-dom';
-import {store} from './redux/state'
+import {store} from './redux/redux-store'
 
 const rerenderEntireTree = (state: StateType) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App store={store}/>,
+                <App store={store}/>
         </BrowserRouter>, document.getElementById('root'))
 }
 
@@ -17,9 +17,11 @@ const rerenderEntireTree = (state: StateType) => {
 rerenderEntireTree(store.getState())
 
 // sending rerenderEntireTree function to state (where subscribe located)
-// so we can use rerenderEntireTree in state.ts (after changes in state)
+// so we can use rerenderEntireTree in store.ts (after changes in state)
 // as callback without importing it.
 
-// index.tsx starts before state.ts and function subscribe rewrite
-// rerenderEntireTree in state.ts before we reach state.ts
-store.subscribe(rerenderEntireTree)
+// index.tsx starts before store.ts and function subscribe rewrite
+// rerenderEntireTree in store.ts before we reach store.ts
+store.subscribe(()=>{
+    rerenderEntireTree(store.getState())
+})

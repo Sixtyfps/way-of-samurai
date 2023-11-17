@@ -1,5 +1,5 @@
 import {addMessageAC, dialogsReducer, updateMessageAC} from "./dialogs-reducer";
-import {DialogsPageType} from "./state";
+import {DialogsPageType} from "./store";
 
 test ('message should be updated', () => {
 
