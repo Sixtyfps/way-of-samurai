@@ -1,27 +1,31 @@
 import React, {ChangeEvent} from "react";
 import s from './MyPosts.module.css'
 import {Post} from "./Post/Post";
-import {ActionsTypes, ProfilePageType} from "../../../redux/store";
-import {addPostAC, updateNewPostTextAC} from "../../../redux/profile-reducer";
+import {PostType, ProfilePageType} from "../../../redux/store";
+import {AppStateType} from "../../../redux/redux-store";
 
 type MyPostsType = {
-    state: ProfilePageType
+    // state: AppStateType
     newPostText: string
-    dispatch: (action: ActionsTypes) => void
+    // dispatch: (action: ActionsTypes) => void
+    updateNewPostText: (newPostText: string) => void
+    addPost: () => void
+    posts: Array<PostType>
 }
 
 
 export const MyPosts: React.FC<MyPostsType> = (props) => {
 
-    let postsElements = props.state.posts.map((p, key) => <Post message={p.message} likesCount={p.likesCount}
+    let postsElements = props.posts.map((p, key) => <Post message={p.message} likesCount={p.likesCount}
                                                                 key={key}/>)
 
     const addPost = () => {
-        props.dispatch(addPostAC())
+        // props.addPost()
+        props.addPost()
     }
 
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateNewPostTextAC(e.currentTarget.value))
+    const updateNewPostText = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
@@ -30,7 +34,7 @@ export const MyPosts: React.FC<MyPostsType> = (props) => {
                 <h3>My posts</h3>
                 <div>
                     <div>
-                        <textarea onChange={onChangeHandler}
+                        <textarea onChange={updateNewPostText}
                                   value={props.newPostText}/>
                     </div>
                     <div>

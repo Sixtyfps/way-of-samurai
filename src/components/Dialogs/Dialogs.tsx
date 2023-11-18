@@ -2,25 +2,26 @@ import React, {ChangeEvent} from "react";
 import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
-import {ActionsTypes, DialogsPageType} from "../../redux/store";
-import {addMessageAC, updateMessageAC} from "../../redux/dialogs-reducer";
+import {DialogsPageType} from "../../redux/store";
 
 type DialogsType = {
-    state: DialogsPageType
-    dispatch: (action: ActionsTypes) => void
+    updateMessage: (newMessage: string) => void
+    addMessage: () => void
+    newMessage: string
+    dialogsPage: DialogsPageType
 }
 
 
 export const Dialogs: React.FC<DialogsType> = (props) => {
-    let dialogsElements = props.state.dialogs.map((d, key) => <DialogItem name={d.name} id={d.id} key={key}/>)
-    let messagesElements = props.state.messages.map((m, key) => <Message message={m.message} key={key}/>)
+    let dialogsElements = props.dialogsPage.dialogs.map((d, key) => <DialogItem name={d.name} id={d.id} key={key}/>)
+    let messagesElements = props.dialogsPage.messages.map((m, key) => <Message message={m.message} key={key}/>)
 
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        props.dispatch(updateMessageAC(e.currentTarget.value))
+    const updateMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
+        props.updateMessage(e.currentTarget.value)
     }
 
     const addMessage = () => {
-        props.dispatch(addMessageAC())
+        props.addMessage()
     }
 
 
@@ -33,8 +34,8 @@ export const Dialogs: React.FC<DialogsType> = (props) => {
                 {messagesElements}
             </div>
             <textarea className={s.messageInput}
-                      onChange={onChangeHandler}
-                      value={props.state.newMessage}
+                      onChange={updateMessage}
+                      value={props.newMessage}
                       placeholder={'Enter the message'}></textarea>
             <button className={s.sendButton}
                     onClick={addMessage}>Send
