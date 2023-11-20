@@ -7,23 +7,20 @@ import {Route} from "react-router-dom";
 import {AppStoreType} from "./redux/redux-store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
-type AppPropsType = {
-    store: AppStoreType
-}
+// type AppPropsType = {
+//     store: AppStoreType
+// }
 
-const App: React.FC<AppPropsType> = (props: AppPropsType) => {
-    const state = props.store.getState()
+const App: React.FC = () => {
+    // const state = props.store.getState()
 
     return (
         <div className='app-wrapper'>
             <Header/>
             <Navbar/>
             <div className='app-wrapper-content'>
-                <Route path='/dialogs' render={() => <DialogsContainer
-                    store={props.store}/>}/>
-                <Route path='/profile' render={() => <Profile
-                    store={props.store}
-                />}/>
+                <Route path='/dialogs' render={() => <DialogsContainer />}/>
+                <Route path='/profile' render={() => <Profile />}/>
             </div>
         </div>
     )
