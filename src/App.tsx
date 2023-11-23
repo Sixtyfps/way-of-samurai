@@ -7,6 +7,7 @@ import {Route} from "react-router-dom";
 import {AppStoreType} from "./redux/redux-store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
+
 // type AppPropsType = {
 //     store: AppStoreType
 // }

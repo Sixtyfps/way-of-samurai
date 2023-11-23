@@ -1,35 +1,37 @@
 import React from "react";
 import {addPostAC, updateNewPostTextAC} from "../../../redux/profile-reducer";
 import {MyPosts} from "./MyPosts";
-import {AppStoreType} from "../../../redux/redux-store";
-import {StoreContext} from "../../../StoreContext";
+import {connect} from "react-redux";
+import {AppStateType} from "../../../redux/redux-store";
+import {PostType} from "../../../redux/store";
 
-// type MyPostsContainerType = {
-//     store: AppStoreType
-//
-// }
-
-
-export const MyPostsContainer: React.FC = (props) => {
-
-    return (
-        <StoreContext.Consumer>
-            { (store) => {
-                const state = store.getState()
-
-                const addPost = () => {
-                    store.dispatch(addPostAC())
-                }
-
-                const updateNewPostText = (newPostText: string) => {
-                    store.dispatch(updateNewPostTextAC(newPostText))
-                }
-                return <MyPosts posts={state.profilePage.posts}
-                                newPostText={state.profilePage.newPostText}
-                                updateNewPostText={updateNewPostText}
-                                addPost={addPost}/>
-            }
-        }
-        </StoreContext.Consumer>
-    )
+type MapStateToPropsType = {
+    posts: Array<PostType>,
+    newPostText: string
 }
+
+type MapDispatchToPropsType = {
+    updateNewPostText: (newPostText: string) => void,
+    addPost: () => void
+}
+
+
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+    return {
+        posts: state.profilePage.posts,
+        newPostText: state.profilePage.newPostText
+    }
+}
+
+const mapDispatchToProps = (dispatch: any): MapDispatchToPropsType => {
+    return {
+        updateNewPostText: (newPostText: string) => {
+            dispatch(updateNewPostTextAC(newPostText))
+        },
+        addPost: () => {
+            dispatch(addPostAC())
+        }
+    }
+}
+
+export const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts)
