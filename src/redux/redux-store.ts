@@ -11,6 +11,9 @@ const reducers = combineReducers({
 
 export const store = createStore(reducers)
 
+// @ts-ignore
+window.store = store
+
 //------------Export store types----------------
 export type AppStoreType = typeof store
 

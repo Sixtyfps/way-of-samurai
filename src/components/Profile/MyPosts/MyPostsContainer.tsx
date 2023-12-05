@@ -9,7 +9,6 @@ type MapStateToPropsType = {
     posts: Array<PostType>,
     newPostText: string
 }
-
 type MapDispatchToPropsType = {
     updateNewPostText: (newPostText: string) => void,
     addPost: () => void

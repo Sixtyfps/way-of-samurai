@@ -17,14 +17,17 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ac
                 message: state.newPostText,
                 likesCount: 0
             }
-            state.posts.push(newPost)
-            state.newPostText = ''
-            return state
+            let stateCopy = {...state}
+            stateCopy.posts = [...state.posts]
+            stateCopy.posts.push(newPost)
+            stateCopy.newPostText = ''
+            return stateCopy
         }
 
         case "UPDATE-NEW-POST-TEXT": {
-            state.newPostText = action.postText
-            return state
+            let stateCopy = {...state}
+            stateCopy.newPostText = action.postText
+            return stateCopy
         }
 
         default: return state
