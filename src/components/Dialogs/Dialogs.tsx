@@ -13,8 +13,8 @@ type DialogsType = {
 
 
 export const Dialogs: React.FC<DialogsType> = (props) => {
-    let dialogsElements = props.dialogsPage.dialogs.map((d, key) => <DialogItem name={d.name} id={d.id} key={key}/>)
-    let messagesElements = props.dialogsPage.messages.map((m, key) => <Message message={m.message} key={key}/>)
+    let dialogsElements = props.dialogsPage.dialogs.map( d => <DialogItem name={d.name} id={d.id} key={d.id}/>)
+    let messagesElements = props.dialogsPage.messages.map( m => <Message message={m.message} key={m.id}/>)
 
     const updateMessage = (e: ChangeEvent<HTMLTextAreaElement>) => {
         props.updateMessage(e.currentTarget.value)

@@ -23,18 +23,26 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ac
     switch (action.type) {
 
         case "UPDATE-MESSAGE": {
-            state.newMessage = action.message
-            return state
+            return {
+                ...state, newMessage: action.message
+            }
+            // state.newMessage = action.message
+            // return state
         }
 
         case "ADD-MESSAGE": {
-            const newMessage: MessageType = {
-                id: 3,
-                message: state.newMessage
+            return {
+                ...state,
+                messages: [...state.messages, {id: 10, message: state.newMessage}],
+                newMessage: ''
             }
-            state.messages.push(newMessage)
-            state.newMessage = ''
-            return state
+            // const newMessage: MessageType = {
+            //     id: 3,
+            //     message: state.newMessage
+            // }
+            // state.messages.push(newMessage)
+            // state.newMessage = ''
+            // return state
         }
 
         default: return state
